@@ -4,10 +4,10 @@
 I chose the baseball dataset provided by Udacity to create two visualizations using d3 and dimple.  The datatset contained 1157 players with their batting side (handedness), height, weight, batting average, and home runs.  Since height and weight had a positive correlation I used just height to explore any correlation with batting average and then with homeruns.  I also explored batting side with batting average and homeruns.
 
 # Design
-I made the bar-bubble chart for height vs averages of batting average and home runs, but it did look weird as was commented in the feedback.  
+I made the bar-bubble chart for height vs averages of batting average and home runs, but it does look different as was commented.  I did not include a range of what the bubbles represented numerically as another legend would clutter the chart; the main goal was to show relativity between height and homerun average, which the people seemed to understand from their comments.
 I added dots to the batting side vs batting and home runs chart as it was commented the line alone got lost in the bar charts.
 I found it interesting that two people thought the batting average difference between right-handers and the rest was significant while one did not, yet all noted the difference in homeruns.  I agreed with the two in my summary at the top of the page that right-handed hitters batting average was lower according to the chart.  I'm not sure how to make that more clear.
-Comments were made about how many people make up each group on the x-axis.  I felt like adding any more numbers to the x-axis would make it difficult to read, and changing the bar width might not be intuitive considering I'm already using size for the home run bubbles.
+Comments were made about how many people make up each group on the x-axis.  I felt like adding any more numbers to the x-axis would make it difficult to read, and changing the bar width might be confusing considering I'm already using size for the home run bubbles.  But the point was definitely valid as there were only four players at 67 inches and 232 players at 72 inches, and only 104 players who batted on both sides, 316 southpaws, and 737 right-handed batters.  The more players the lower the batting average, but the correlation remains that shorter players have higher batting averages than taller players.  I ultimately decided to explain the bins in the summary at the top as to not make the charts cluttered.  
 
 # Feeback
 I used the questions provided by Udacity to get feedback on my visualizations.
