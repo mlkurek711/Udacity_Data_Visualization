@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+  
+  <style>
+      /* Title */
+      h2 {
+        text-align: center;
+      }
+      /* Normal text */
+      div {
+      	text-align: justify;
+      }
+      /* Warning about browsers */
+      p {
+      	text-align: center;
+      	font-style: italic;
+      }
+    </style>
+	
+    <script type="text/javascript">
+	  "use strict";
+          var margin = 50,
+              width = 750 - margin,
+              height = 400 - margin;
+
+	  function draw(data) {
+          d3.select("body")
+            .append("h2")
+            .text("Some Baseball Data (Because there's so much of it!)");
+
+          d3.select("body")
+            .append("div")
+            .text("The following plots are from a dataset containing 1157 baseball players with their batting side, height, weight, batting average, and home runs. "
+				  + "The first plot shows the average batting average of players aggregated over their height along with their average home runs at that height (height and weight "
+				  + "are positivley correlated, so the plot just includes height).  The plot shows sharp dropoffs from 74 to 75 inches and from 75 to 76 inches.  The sweet spot appears "
+				  + "to be at 67 inches with highest batting average and home runs.  The second plot shows players batting average and home runs averaged and aggregated over batting "
+				  + "side. Left-handed hitters and hitters that switch sides have the same batting average and they outperform right-handed hitters.  Left-handed hitters appear to "
+				  + "knock it out of the park more often.");
+
+          d3.select("body")
+            .append("p")
+            .text("Please use Chrome for a correct visualization.");
+
+		  bar_bubble_plot(data);
+		  bar_line_plot(data);
+	  };
+      function bar_bubble_plot(data) {
+		var svg = d3.select("body")
+            .append("svg")
+              .attr("width", width + margin)
+              .attr("height", height + margin)
+            .append('g')
+                .attr('class','chart');
+
+		//Create main x, y, and z axis
+        var myChart = new dimple.chart(svg, data);
+        var x = myChart.addCategoryAxis("x", "height"); 
+		x.title = "Height (inches)";
+		var y = myChart.addMeasureAxis("y", "avg");
+		y.title = "Batting Average (aggregated by height and averaged)";
+		y.tickFormat = ',.3f';
+		myChart.addMeasureAxis("z", "HR");
+
+		//Add series
+		myChart.addSeries("Batting average", dimple.plot.bar).aggregate = dimple.aggregateMethod.avg;
+		myChart.addSeries("Home Runs", dimple.plot.bubble).aggregate = dimple.aggregateMethod.avg;
+		
+		//Add legend
+		myChart.addLegend(100, 50, 200, 200, "left");
+		myChart.draw();
+      };
+
+	  function bar_line_plot(data) {
+		var svg = d3.select("body")
+            .append("svg")
+              .attr("width", width + margin)
+              .attr("height", height + margin)
+            .append('g')
+                .attr('class','chart');
+		
+		var myChart = new dimple.chart(svg, data);
+		var x = myChart.addCategoryAxis("x", "handedness");
+		x.title = "Batting Side";
+		var y1 = myChart.addMeasureAxis("y", "avg");
+		y1.title = "Batting Average (aggregated by batting side)";
+		y1.tickFormat = ',.3f';
+		var y2 = myChart.addMeasureAxis("y", "HR");
+		y2.title = "Homerun Average (aggregated by batting side)";
+
+		myChart.addSeries("Batting average", dimple.plot.bar, [x, y1]).aggregate = dimple.aggregateMethod.avg;
+		myChart.addSeries("Home Runs", dimple.plot.line, [x, y2]).aggregate = dimple.aggregateMethod.avg;
+		
+		myChart.addLegend(100, 50, 200, 200, "left");
+        myChart.draw();
+      };
+
+      </script>
+  </head>
+<body>
+  <script type="text/javascript">
+  /*
+    Use D3 (not dimple.js) to load the CSV file
+    and pass the contents of it to the draw function
+    */
+  d3.csv("baseball_data.csv", draw);
+  </script>
+</body>
+</html>
